@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>보라매병원 연구비 도우미</title>
+<style>
+:root{--bg:#f0f3f8;--sur:#fff;--sur2:#f7f9fc;--bdr:#e2e7ef;--pri:#1a5fa8;--prl:#e8f0fb;--txt:#1e2535;--muted:#6b748a;--lite:#9da4b5;--ubg:#1a5fa8;--ok:#1a7f4b;--okbg:#edf7f2;--warn:#a05c00;--wbg:#fff8e6;--sh:0 2px 12px rgba(0,0,0,.07);--shs:0 1px 4px rgba(0,0,0,.05);--r:14px;--rs:8px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Apple SD Gothic Neo','Malgun Gothic',-apple-system,sans-serif;background:var(--bg);color:var(--txt);height:100vh;display:flex;flex-direction:column;overflow:hidden;font-size:14px}
+.hd{background:var(--sur);border-bottom:1px solid var(--bdr);padding:12px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;box-shadow:var(--shs)}
+.hd-ico{width:38px;height:38px;background:var(--pri);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.hd h1{font-size:15px;font-weight:700}.hd p{font-size:11px;color:var(--muted);margin-top:1px}
+.hd-badge{margin-left:auto;background:var(--okbg);color:var(--ok);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;border:1px solid #b6e4cc;white-space:nowrap}
+.lay{display:flex;flex:1;overflow:hidden}
+.sb{width:252px;flex-shrink:0;background:var(--sur);border-right:1px solid var(--bdr);display:flex;flex-direction:column;overflow:hidden}
+.sb-sec{padding:12px 14px 4px}
+.sb-lbl{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lite);margin-bottom:6px}
+.sb-inp{width:100%;border:1px solid var(--bdr);border-radius:var(--rs);padding:7px 10px;font-size:12px;font-family:inherit;color:var(--txt);background:var(--sur2);outline:none}
+.sb-inp:focus{border-color:var(--pri)}
+.sb-scroll{flex:1;overflow-y:auto;padding:2px 10px 10px}
+.g-ttl{font-size:10px;font-weight:700;color:var(--lite);letter-spacing:.06em;text-transform:uppercase;padding:10px 4px 4px}
+.qi{padding:7px 10px;border-radius:var(--rs);font-size:12px;line-height:1.4;cursor:pointer;border:1px solid transparent;margin-bottom:3px;color:var(--txt);transition:all .15s;display:flex;align-items:flex-start;gap:6px}
+.qi:hover{background:var(--prl);border-color:#c5d6f0;color:var(--pri)}
+.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.d0{background:#2d5ca8}.d1{background:#5b30a8}.d2{background:#1a7f4b}
+.d3{background:#a05c00}.d4{background:#a82d3a}.d5{background:#1a6fa8}
+.d6{background:#3a4a8c}.d7{background:#6b748a}
+.sb-docs{border-top:1px solid var(--bdr);padding:10px 14px 14px}
+.dr{font-size:11px;color:var(--muted);padding:2px 0}
+.cw{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
+.mr{display:flex;gap:10px;align-items:flex-end}
+.mr.u{flex-direction:row-reverse;margin-left:auto;max-width:75%}
+.mr.b{max-width:92%}
+.av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;font-weight:700}
+.av.ba{background:var(--prl);color:var(--pri);border:1.5px solid #c5d6f0;font-size:15px}
+.av.ua{background:var(--ubg);color:#fff;font-size:11px}
+.bb{padding:11px 15px;border-radius:18px;line-height:1.65;word-break:break-word}
+.b .bb{background:var(--sur);border:1px solid var(--bdr);border-bottom-left-radius:4px;box-shadow:var(--shs)}
+.u .bb{background:var(--ubg);color:#fff;border-bottom-right-radius:4px}
+.bb strong{font-weight:700}
+.stp{display:flex;gap:8px;margin:4px 0}
+.sn{width:20px;height:20px;border-radius:50%;background:var(--pri);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.wl{background:var(--wbg);border-left:3px solid #e8a020;padding:6px 10px;border-radius:0 6px 6px 0;font-size:12px;color:var(--warn);margin:6px 0}
+.il{background:var(--prl);border-left:3px solid var(--pri);padding:6px 10px;border-radius:0 6px 6px 0;font-size:12px;color:#1a4a8a;margin:6px 0}
+.src{margin-top:10px;padding:7px 10px;background:var(--sur2);border-left:3px solid var(--pri);border-radius:0 6px 6px 0;font-size:11px;color:var(--muted)}
+.src b{color:var(--pri)}
+.cpr{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.cp{background:#eef2fa;color:#2d4a8c;font-size:11px;padding:4px 10px;border-radius:20px;cursor:pointer;border:1px solid #d0daf0;transition:all .15s}
+.cp:hover{background:var(--prl);border-color:#b0c4e8}
+.typ{display:flex;align-items:center;gap:4px;padding:12px 15px;background:var(--sur);border:1px solid var(--bdr);border-radius:18px;border-bottom-left-radius:4px;width:fit-content;box-shadow:var(--shs)}
+.typ span{width:6px;height:6px;border-radius:50%;background:var(--lite);animation:bou 1.2s infinite}
+.typ span:nth-child(2){animation-delay:.2s}.typ span:nth-child(3){animation-delay:.4s}
+@keyframes bou{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+.wc{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);padding:22px 24px;max-width:520px;margin:10px auto;box-shadow:var(--sh);text-align:center}
+.wc h2{font-size:17px;font-weight:700;margin-bottom:6px}
+.wc p{font-size:13px;color:var(--muted);line-height:1.6}
+.wt{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:12px}
+.wt span{background:var(--prl);color:var(--pri);font-size:12px;padding:4px 11px;border-radius:20px;font-weight:600}
+.ia{border-top:1px solid var(--bdr);background:var(--sur);padding:12px 18px;flex-shrink:0}
+.hr{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.hn{background:#eef2fa;color:#2d4a8c;font-size:11px;padding:4px 10px;border-radius:20px;cursor:pointer;border:1px solid #d0daf0;transition:all .15s;white-space:nowrap}
+.hn:hover{background:var(--prl)}
+.ir{display:flex;gap:8px;align-items:flex-end}
+.ir textarea{flex:1;border:1.5px solid var(--bdr);border-radius:var(--r);padding:10px 14px;font-size:14px;font-family:inherit;resize:none;outline:none;min-height:42px;max-height:110px;line-height:1.5;color:var(--txt);transition:border-color .15s}
+.ir textarea:focus{border-color:var(--pri)}
+.ir textarea::placeholder{color:var(--lite)}
+.sb2{width:42px;height:42px;border-radius:50%;background:var(--pri);color:#fff;border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,transform .1s}
+.sb2:hover{background:#154e8a}.sb2:active{transform:scale(.95)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--prl);font-weight:700;padding:7px 8px;border:1px solid var(--bdr);text-align:left}
+td{padding:5px 8px;border:1px solid var(--bdr)}
+tr:nth-child(even) td{background:var(--sur2)}
+@media(max-width:680px){.sb{display:none}}
+</style>
+</head>
+<body>
+<div class="hd">
+  <div class="hd-ico">🏥</div>
+  <div>
+    <h1>보라매병원 연구비 도우미</h1>
+    <p>BRIS · IRIS · 이지바로 · 증빙서류 · 연구활동비 · 회수/환원 · 산업부</p>
+  </div>
+  <div class="hd-badge">● 오프라인 작동</div>
+</div>
+<div class="lay">
+  <div class="sb">
+    <div class="sb-sec">
+      <div class="sb-lbl">검색</div>
+      <input class="sb-inp" id="ssi" placeholder="키워드 검색..." oninput="fq(this.value)">
+    </div>
+    <div class="sb-scroll" id="ql">
+      <div class="g-ttl">BRIS 연구비 지급</div>
+      <div class="qi" onclick="ask('BRIS 회의비 신청 절차')"><span class="dot d0"></span>회의비 신청</div>
+      <div class="qi" onclick="ask('BRIS 대상자 사례비 신청')"><span class="dot d0"></span>대상자 사례비</div>
+      <div class="qi" onclick="ask('BRIS 국내여비 신청 방법')"><span class="dot d0"></span>국내여비 신청</div>
+      <div class="qi" onclick="ask('BRIS 국외여비 신청 방법')"><span class="dot d0"></span>국외여비 신청</div>
+      <div class="qi" onclick="ask('BRIS R&D 카드 정산')"><span class="dot d0"></span>R&D 카드 정산</div>
+      <div class="qi" onclick="ask('BRIS 연구재료 소모품 구매')"><span class="dot d0"></span>재료·소모품 구매</div>
+      <div class="qi" onclick="ask('BRIS 연구시설 장비 구매')"><span class="dot d0"></span>연구시설·장비 구매</div>
+      <div class="qi" onclick="ask('BRIS 전문가활용비 신청')"><span class="dot d0"></span>전문가활용비</div>
+      <div class="qi" onclick="ask('BRIS 연구수당 신청')"><span class="dot d0"></span>연구수당 신청</div>
+      <div class="qi" onclick="ask('BRIS 실행예산 변경')"><span class="dot d0"></span>실행예산 변경</div>
+
+      <div class="g-ttl">증빙서류 안내</div>
+      <div class="qi" onclick="ask('회의비 증빙서류')"><span class="dot d7"></span>회의비 증빙</div>
+      <div class="qi" onclick="ask('국내여비 증빙서류')"><span class="dot d7"></span>국내여비 증빙</div>
+      <div class="qi" onclick="ask('국외여비 증빙서류')"><span class="dot d7"></span>국외여비 증빙</div>
+      <div class="qi" onclick="ask('학회등록비 증빙서류')"><span class="dot d7"></span>학회등록비 증빙</div>
+      <div class="qi" onclick="ask('외부인건비 증빙서류')"><span class="dot d7"></span>외부인건비 증빙</div>
+      <div class="qi" onclick="ask('연구재료비 증빙서류')"><span class="dot d7"></span>연구재료비 증빙</div>
+      <div class="qi" onclick="ask('전문가활용비 증빙서류')"><span class="dot d7"></span>전문가활용비 증빙</div>
+      <div class="qi" onclick="ask('소프트웨어 증빙서류')"><span class="dot d7"></span>소프트웨어 증빙</div>
+      <div class="qi" onclick="ask('연구수당 증빙서류')"><span class="dot d7"></span>연구수당 증빙</div>
+      <div class="qi" onclick="ask('BRIS 정산증빙 다운로드')"><span class="dot d7"></span>정산증빙 다운로드</div>
+
+      <div class="g-ttl">정산·회수·환원</div>
+      <div class="qi" onclick="ask('연구비 회수 환원 기준')"><span class="dot d4"></span>연구비 회수·환원 기준</div>
+      <div class="qi" onclick="ask('국내여비 환원 반납 기준')"><span class="dot d4"></span>국내여비 환원 기준</div>
+      <div class="qi" onclick="ask('연구비 집행 불인정 항목')"><span class="dot d4"></span>집행 불인정 항목</div>
+      <div class="qi" onclick="ask('정산 절차 제출 기한')"><span class="dot d4"></span>정산 절차·기한</div>
+      <div class="qi" onclick="ask('연구비카드 취소 처리방법')"><span class="dot d4"></span>카드 취소 처리</div>
+
+      <div class="g-ttl">연구활동비 사용기준</div>
+      <div class="qi" onclick="ask('연구활동비 사용 가능 항목 전체')"><span class="dot d3"></span>연구활동비 사용항목 전체</div>
+      <div class="qi" onclick="ask('학회등록비 사용 가능한가')"><span class="dot d3"></span>학회등록비 사용 가능 여부</div>
+      <div class="qi" onclick="ask('야근식대 연구비 사용 가능한가')"><span class="dot d3"></span>야근식대 사용 여부</div>
+      <div class="qi" onclick="ask('논문게재료 사용기준')"><span class="dot d3"></span>논문게재료</div>
+      <div class="qi" onclick="ask('소프트웨어 클라우드 연구비 사용기준')"><span class="dot d3"></span>소프트웨어·클라우드</div>
+      <div class="qi" onclick="ask('회의비 식비 사용 가능한가')"><span class="dot d3"></span>회의비 식비 포함 여부</div>
+
+      <div class="g-ttl">참여연구원·인건비</div>
+      <div class="qi" onclick="ask('BRIS 참여연구원 신규 등록')"><span class="dot d4"></span>참여연구원 등록</div>
+      <div class="qi" onclick="ask('BRIS 인건비재원정보 입력')"><span class="dot d4"></span>인건비재원정보 입력</div>
+      <div class="qi" onclick="ask('인건비 직급별 기준단가')"><span class="dot d4"></span>인건비 기준단가</div>
+      <div class="qi" onclick="ask('학생인건비 지급 기준')"><span class="dot d4"></span>학생인건비 기준</div>
+      <div class="qi" onclick="ask('연구수당 계상 한도 기준')"><span class="dot d4"></span>연구수당 계상 기준</div>
+
+      <div class="g-ttl">IRIS · 통합이지바로</div>
+      <div class="qi" onclick="ask('IRIS 협약변경 절차')"><span class="dot d1"></span>IRIS 협약변경</div>
+      <div class="qi" onclick="ask('IRIS 연구원 변경')"><span class="dot d1"></span>IRIS 연구원 변경</div>
+      <div class="qi" onclick="ask('통합이지바로 인건비 계상률 입력')"><span class="dot d2"></span>이지바로 계상률</div>
+      <div class="qi" onclick="ask('BRIS IRIS 통합이지바로 시스템 관계')"><span class="dot d6"></span>3개 시스템 관계</div>
+
+      <div class="g-ttl">여비·운영비</div>
+      <div class="qi" onclick="ask('국내 출장 여비 직급별 기준')"><span class="dot d5"></span>국내여비 기준</div>
+      <div class="qi" onclick="ask('자가용 출장 운임 처리')"><span class="dot d5"></span>자가용 출장 운임</div>
+      <div class="qi" onclick="ask('연구실운영비 구입 가능 품목')"><span class="dot d3"></span>연구실운영비 기준</div>
+
+      <div class="g-ttl">연구비관리지침</div>
+      <div class="qi" onclick="ask('위탁연구비 산정 기준')"><span class="dot d3"></span>위탁연구비 산정</div>
+      <div class="qi" onclick="ask('회의비 집행 기준 상한액')"><span class="dot d3"></span>회의비 집행 기준</div>
+      <div class="qi" onclick="ask('강사료 자문료 기준')"><span class="dot d3"></span>강사료·자문료 기준</div>
+
+      <div class="g-ttl">산업부 과제 (RCMS)</div>
+      <div class="qi" onclick="ask('산업기술혁신사업 회수금 환수금')"><span class="dot d7"></span>회수금·환수금 정의</div>
+    </div>
+    <div class="sb-docs">
+      <div class="sb-lbl">참고 문서</div>
+      <div class="dr">📄 증명자료·유의사항 (02 xlsx)</div>
+      <div class="dr">📄 보라매 연구비관리지침</div>
+      <div class="dr">📄 국가연구개발혁신법 매뉴얼</div>
+      <div class="dr">📄 연구개발비 사용기준 고시</div>
+      <div class="dr">📄 BRIS 연구자 매뉴얼</div>
+      <div class="dr">📄 IRIS 협약변경 매뉴얼</div>
+      <div class="dr">📄 통합이지바로 매뉴얼</div>
+      <div class="dr">📄 국내여비규정 (2023.1.5)</div>
+      <div class="dr">📄 산업기술혁신사업 공통 운영요령</div>
+    </div>
+  </div>
+
+  <div class="cw">
+    <div class="msgs" id="msgs">
+      <div class="wc">
+        <div style="font-size:34px;margin-bottom:8px">🔬</div>
+        <h2>보라매병원 연구비 관리 도우미</h2>
+        <p>"학회비 증빙은 어떻게 해요?" "국내여비 환원 기준이 뭐예요?"<br>자연스럽게 질문해도 됩니다.</p>
+        <div class="wt">
+          <span>BRIS</span><span>IRIS</span><span>증빙서류</span>
+          <span>회수·환원</span><span>연구활동비</span><span>인건비</span>
+        </div>
+      </div>
+    </div>
+    <div class="ia">
+      <div class="hr">
+        <span class="hn" onclick="ask('학회등록비 증빙서류가 뭐가 필요해요?')">📋 학회비 증빙</span>
+        <span class="hn" onclick="ask('국내여비 환원 반납 기준은 어떻게 되나요?')">↩️ 여비 환원</span>
+        <span class="hn" onclick="ask('야근식대 연구비로 쓸 수 있어요?')">🍱 야근식대</span>
+        <span class="hn" onclick="ask('회의비 식비 포함 가능한가요?')">☕ 회의비 식비</span>
+        <span class="hn" onclick="ask('연구수당 증빙서류와 집행 기준')">💰 연구수당</span>
+      </div>
+      <div class="ir">
+        <textarea id="inp" placeholder="자유롭게 질문하세요... (예: 학회비 증빙 뭐 필요해요? / 국내여비 환원기준이 어떻게 돼?)" rows="1"
+          onkeydown="onK(event)" oninput="rsz(this)"></textarea>
+        <button class="sb2" onclick="send()" title="전송">➤</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================================================================
+   지식 베이스 — 전체 파일 기반
+   각 항목: id, title, src, body, chips
+   phrases: 이 표현이 질문에 포함되면 강하게 매칭 (길수록 좋음)
+   words: 단어 수준 매칭
+   anti: 이 단어가 있으면 점수 깎음 (다른 항목으로 유도)
+================================================================ */
+const KB = [
+
+{id:'ev_meeting', title:'회의비 증빙서류',
+ src:'증명자료 및 유의사항 (02 xlsx) — 연구활동비 > 회의비',
+ phrases:['회의비 증빙','회의비 서류','회의비 영수증','회의비 증명','회의비 무엇','회의비 뭐가','회의비 어떤'],
+ words:['회의비','회의록'],
+ anti:['신청','절차','bris','방법','기준단가','상한'],
+ body:`<strong>회의비 증빙서류</strong><br><br>
+<table><tr><th>필수 제출 서류</th><th>유의사항</th></tr>
+<tr><td>① 카드매출전표</td><td rowspan="2">외부기관 소속 참석자 <strong>1인 이상 필수</strong><br>회의비 1인당 기준단가: <strong>5만원 이하</strong> (자체규정 적용 시)<br>식사 후 다과비(커피) 별도 지출 시 <strong>각각 다른 회의록</strong> 작성<br>주문내역 나오는 영수증이면 메뉴 개수대로 참석자 기입 필요</td></tr>
+<tr><td>② 회의록 (BRIS 자동출력)</td></tr>
+</table><br>
+<div class="wl">※ 회의비 중 <strong>식비 포함 원칙적 불가</strong><br>단, 소속 외 인원 포함 & 사전 내부결재 완료된 회의에 한해 가능<br>※ 주류 청구 불가</div>`,
+ chips:['회의비 신청 절차','회의비 집행 기준 상한액','전문가활용비 증빙서류']},
+
+{id:'ev_dom_travel', title:'국내여비 증빙서류',
+ src:'증명자료 및 유의사항 (02 xlsx) — 연구활동비 > 국내여비',
+ phrases:['국내여비 증빙','국내여비 서류','국내여비 영수증','국내여비 증명','출장 증빙','출장 서류'],
+ words:['국내여비','출장명령서','출장증빙'],
+ anti:['신청','절차','기준','상한','bris','환원','반납','회수'],
+ body:`<strong>국내여비 증빙서류</strong><br><br>
+<table><tr><th>필수 제출 서류</th><th>유의사항</th></tr>
+<tr><td>① 국내여비규정</td><td rowspan="5">
+· 택시비·주차비: 연구비카드 결제 불가 → <strong>현지교통비로 수령</strong><br>
+· 학회·호텔·출장기관에서 식사 제공 받은 경우: 해당 식비 <strong>차감</strong> (1식 = 1일당 식비 ÷ 3)<br>
+· 상한액 초과 가능성 있으면 <strong>개인 신용카드</strong> 사용<br>
+· 타 재원(원내 학술활동경비 등)으로 <strong>중복수령 불가</strong>
+</td></tr>
+<tr><td>② 출장명령서<br><span style="font-size:11px;color:var(--muted)">연구책임자·병원직원: 원내결재 완료본<br>개인연구원: 연구원 출장명령서</span></td></tr>
+<tr><td>③ 학회 프로그램 일정표, 학회 발행 영수증 (해당 시)</td></tr>
+<tr><td>④ KTX·버스·항공 카드매출전표 및 예매티켓</td></tr>
+<tr><td>⑤ 숙박자 명단 및 숙박일수 확인 가능한 영수증</td></tr>
+</table>`,
+ chips:['국내 출장 여비 직급별 기준','국내여비 환원 기준','국내여비 신청 절차']},
+
+{id:'ev_intl_travel', title:'국외여비 증빙서류',
+ src:'증명자료 및 유의사항 (02 xlsx) — 연구활동비 > 국외여비',
+ phrases:['국외여비 증빙','해외여비 증빙','국외출장 서류','해외출장 증빙','국외출장 증빙'],
+ words:['국외여비','해외여비','국외출장'],
+ anti:['신청','절차','기준','bris'],
+ body:`<strong>국외여비 증빙서류</strong><br><br>
+<table><tr><th>필수 제출 서류</th><th>유의사항</th></tr>
+<tr><td>① 국외여비규정 및 IVR 운임표</td><td rowspan="7">
+· 상한액 초과 가능성 시 <strong>개인 신용카드</strong> 사용 후 상한액만큼만 지급신청<br>
+· 현지교통비·숙박비·식비: 현지체류일 기준, 환율은 출발일 매매기준율<br>
+· 학회·호텔에서 식사 제공 시 해당 식비 <strong>차감</strong> (1식 = 1일당 식비 ÷ 3)<br>
+· 타 재원(원내 학술활동경비 등) 중복수령 불가
+</td></tr>
+<tr><td>② 출장명령서 (국외여행명령서 / 연구원 출장명령서)</td></tr>
+<tr><td>③ 학회 프로그램 일정표, 학회 발행 영수증 (해당 시)</td></tr>
+<tr><td>④ 항공운임 실비지급: 출입국사실증명원 + 카드매출전표 + 항공권 원본(e-ticket)</td></tr>
+<tr><td>⑤ 항공운임 정액지급: 출입국사실증명원</td></tr>
+<tr><td>⑥ 숙박자 명단 및 숙박일수 확인 가능한 영수증</td></tr>
+<tr><td>⑦ 국외출장보고서</td></tr>
+</table>`,
+ chips:['국내여비 증빙서류','BRIS 국외여비 신청']},
+
+{id:'ev_conf_fee', title:'학회등록비 증빙서류',
+ src:'증명자료 및 유의사항 (02 xlsx) — 연구활동비 > 학회등록비',
+ phrases:['학회등록비 증빙','학회등록비 서류','학회비 증빙','학회비 서류','학회비 뭐','학회 참가비 증빙','학회 증빙'],
+ words:['학회등록비','학회비','학회참가비','네임택'],
+ anti:['종신','불인정'],
+ body:`<strong>학회등록비 증빙서류</strong><br><br>
+<table><tr><th>필수 제출 서류</th><th>유의사항</th></tr>
+<tr><td>① 전자(세금)계산서 또는 카드매출전표</td><td rowspan="4">
+· <strong>종신학회비 불인정</strong><br>
+· 학회 일정 및 프로그램 첨부 필수<br>
+· 논문초록 또는 포스터 첨부 (발표 참가 시)
+</td></tr>
+<tr><td>② 학회 일정 및 프로그램</td></tr>
+<tr><td>③ 학회 발행 영수증 및 <strong>네임택</strong></td></tr>
+<tr><td>④ 논문초록 또는 포스터</td></tr>
+</table>
+<div class="wl">※ 종신학회비는 연구비로 불인정<br>※ 연구과제와 관련 없는 학회 참가비도 불인정</div>`,
+ chips:['학회등록비 사용 가능 여부','연구활동비 사용항목 전체','국내여비 증빙서류']},
+
+{id:'ev_labor', title:'외부인건비·학생인건비 증빙서류',
+ src:'증명자료 및 유의사항 (02 xlsx) — 인건비 > 외부인건비·학생인건비',
+ phrases:['인건비 증빙','외부인건비 증빙','학생인건비 증빙','인건비 서류','인건비 서류'],
+ words:['인건비증빙','건강보험','자격득실','참여확약서'],
+ anti:['기준단가','지급기준','bris'],
+ body:`<strong>인건비 증빙서류</strong><br><br>
+<strong>▌외부인건비</strong><br>
+<table><tr><th>필수 제출 서류</th><th>유의사항</th></tr>
+<tr><td>① 연구과제 참여확약서 (<strong>필수</strong>)</td><td rowspan="3">
+· 타 비영리기관 직장가입자: 외부참여연구원 소속기관장 확인서 추가 제출<br>
+· <strong>중도 하차 연구원의 경우</strong> 참여종료일 이후 건강보험자격득실확인서 보관 필수
+</td></tr>
+<tr><td>② 건강보험자격득실확인서<br><span style="font-size:11px;color:var(--muted)">(인건비 지급 시작일 이후 발급, 전체기간으로 발급)</span></td></tr>
+<tr><td>③ 외부참여연구원 소속기관장 확인서 (타 비영리기관 직장가입자)</td></tr>
+</table><br>
+<strong>▌학생인건비</strong><br>
+<table><tr><th>필수 제출 서류</th><th>유의사항</th></tr>
+<tr><td>① 재학증명서</td><td rowspan="2">외부인건비로 계상 + 학생인건비 기준단가 적용<br>외참확인서 발급 공문 필요 시 연구행정팀 요청</td></tr>
+<tr><td>② 외부참여연구원 소속기관장 확인서 (해당학교 산단에 요청)</td></tr>
+</table>`,
+ chips:['인건비 기준단가','학생인건비 기준','참여연구원 등록 방법']},
+
+{id:'ev_materials', title:'연구재료비 증빙서류',
+ src:'증명자료 및 유의사항 (02 xlsx) — 연구재료비',
+ phrases:['연구재료 증빙','재료비 증빙','재료비 서류','소모품 증빙','재료 서류'],
+ words:['연구재료비','구매의뢰서','검수확인서','거래명세서'],
+ anti:['bris 신청','장비','소프트웨어'],
+ body:`<strong>연구재료비 증빙서류</strong><br><br>
+<table><tr><th>필수 제출 서류</th><th>유의사항</th></tr>
+<tr><td>① 전자(세금)계산서 또는 카드매출전표</td><td rowspan="4">
+· 연구 종료일 임박 대량구매 금지 (연구비 소진 목적 지출로 지적 가능)<br>
+· <strong>가운 구매 불가</strong> (가운은 간접비 구매 원칙)
+</td></tr>
+<tr><td>② 거래명세서</td></tr>
+<tr><td>③ 구매의뢰서</td></tr>
+<tr><td>④ 검수확인서 (검수 사진 첨부)</td></tr>
+</table>`,
+ chips:['연구시설·장비 구매 증빙','연구실운영비 구입 가능 품목']},
+
+{id:'ev_equip', title:'연구시설·장비비 증빙서류',
+ src:'증명자료 및 유의사항 (02 xlsx) — 연구시설장비비',
+ phrases:['장비 증빙','장비 서류','시설장비 증빙','연구장비 증빙'],
+ words:['장비증빙','활용내역서','지정기탁서'],
+ anti:['bris 신청'],
+ body:`<strong>연구시설·장비비 증빙서류</strong><br><br>
+<table><tr><th>필수 제출 서류</th><th>유의사항</th></tr>
+<tr><td>① 전자(세금)계산서 또는 카드매출전표</td><td rowspan="5">
+· 도입기한: <strong>최종(단계) 종료 2개월 전까지</strong> 구매 및 검수 완료<br>
+· 단가 100만원 초과 시 연구장비활용내역서 + 지정기탁서 필수<br>
+· 컨소시엄 구성기관 간 지출은 내부거래로 불인정 (일부 예외 있음)
+</td></tr>
+<tr><td>② 거래명세서</td></tr>
+<tr><td>③ 구매의뢰서</td></tr>
+<tr><td>④ 검수확인서 (검수 사진 첨부)</td></tr>
+<tr><td>⑤ 연구장비활용내역서 + 지정기탁서 (단가 100만원 초과 시)</td></tr>
+</table>`,
+ chips:['연구재료비 증빙서류','BRIS 연구시설·장비 구매 신청']},
+
+{id:'ev_expert', title:'전문가활용비 증빙서류',
+ src:'증명자료 및 유의사항 (02 xlsx) — 연구활동비 > 외부전문기술활용비',
+ phrases:['전문가활용비 증빙','자문료 증빙','강사료 증빙','전문가 서류','자문 증빙'],
+ words:['전문가활용비증빙','자문확인서','이력서'],
+ anti:['bris 신청','기준','상한'],
+ body:`<strong>전문가활용비·연구개발서비스 활용비 증빙서류</strong><br><br>
+<strong>▌전문가활용비</strong><br>
+<table><tr><th>필수 제출 서류</th><th>유의사항</th></tr>
+<tr><td>① 전문가 이력서 (소속·이력 등 전문성 확인 자료)</td><td rowspan="2">
+· 컨소시엄 구성기관 참여연구원에게 지급 불가<br>
+· 보라매병원 소속: 해당 과제 참여연구원과 동일 진료과 임직원 지급 불가<br>
+· 지급신청 시 <strong>주민등록번호 + 입금계좌</strong> 입력 필수 (기타소득 과세)
+</td></tr>
+<tr><td>② 자문내역 포함된 전문가 자문확인서</td></tr>
+</table><br>
+<strong>▌연구개발서비스 활용비</strong><br>
+<table><tr><th>필수 제출 서류</th></tr>
+<tr><td>① 전자(세금)계산서 또는 카드매출전표</td></tr>
+<tr><td>② 시험·검사·분석의뢰서 (없으면 의뢰 이메일 등 이력으로 대체 가능)</td></tr>
+<tr><td>③ 연구개발서비스 결과서</td></tr>
+</table>
+<div class="wl">※ 직접비의 <strong>40% 이내</strong>까지만 집행 가능</div>`,
+ chips:['강사료·자문료 기준','BRIS 전문가활용비 신청']},
+
+{id:'ev_sw', title:'소프트웨어 증빙서류',
+ src:'증명자료 및 유의사항 (02 xlsx) — 연구활동비 > 소프트웨어활용비',
+ phrases:['소프트웨어 증빙','sw 증빙','소프트웨어 서류','프로그램 구매 증빙','소프트웨어 필요 서류'],
+ words:['소프트웨어증빙','설치완료확인서'],
+ anti:['bris'],
+ body:`<strong>소프트웨어 활용비 증빙서류</strong><br><br>
+<table><tr><th>필수 제출 서류</th><th>유의사항</th></tr>
+<tr><td>① 전자(세금)계산서 또는 카드매출전표</td><td rowspan="5">
+· 도입기한: <strong>최종(단계) 종료 2개월 전까지</strong> 사용계약 체결<br>
+· 사용계약기간이 연구개발기간 초과 시: 계약기간이 최소단위임을 입증하는 서류 첨부 필요
+</td></tr>
+<tr><td>② 구매의뢰서 (연구과제와 직접 관련성 포함)</td></tr>
+<tr><td>③ 거래명세서 (사용계약기간 확인 가능한 자료)</td></tr>
+<tr><td>④ 계약서 (계약에 의해 거래된 경우)</td></tr>
+<tr><td>⑤ 검수(설치)완료 확인서</td></tr>
+</table>`,
+ chips:['소프트웨어·클라우드 사용기준','연구활동비 사용항목 전체']},
+
+{id:'ev_reward', title:'연구수당 증빙서류 및 집행 기준',
+ src:'증명자료 및 유의사항 (02 xlsx) — 연구수당',
+ phrases:['연구수당 증빙','연구수당 서류','연구수당 집행','연구수당 기준','수당 증빙'],
+ words:['연구수당증빙','기여도평가서','연구수당집행'],
+ anti:[],
+ body:`<strong>연구수당 증빙서류 및 집행 기준</strong><br><br>
+<strong>▌증빙서류</strong><br>
+연구수당 기여도 평가서 (BRIS 입력 시 자동 출력)<br><br>
+<strong>▌집행 기준 (중요)</strong><br>
+<table><tr><th>기준 항목</th><th>내용</th></tr>
+<tr><td>계상 한도</td><td>인건비(현금+현물+미지급)의 <strong>20% 이내</strong></td></tr>
+<tr><td>100% 집행 조건</td><td>연구수당 제외 직접비의 <strong>80% 이상 집행</strong> 시에만 가능</td></tr>
+<tr><td>1인 상한</td><td>참여연구원 1인에게 <strong>70% 초과 집행 불가</strong></td></tr>
+<tr><td>증액 불가</td><td>최초협약 당시보다 <strong>증액 불가</strong><br><span style="font-size:11px;color:var(--muted)">(연차실적보고서 제출 시 승인받더라도 최초협약 기준 적용)</span></td></tr>
+</table>
+<div class="wl">※ 평가서 작성 시 연구과제와 직접적인 연관성 있게 구체적으로 작성 (행정사무 등 단어 지양)<br>
+※ 산기평(산업부) 과제: 연차종료일 이후 연구수당 집행, 개인별 인건비 총액의 70% 초과 지급 불가 (학생연구자 예외)<br>
+※ 산기평 과제: 과제 개시일로부터 최소 6개월 경과 후 집행 권장</div>`,
+ chips:['인건비 기준단가','BRIS 연구수당 신청','연구비 집행 불인정 항목']},
+
+{id:'ev_card', title:'연구비카드 사용 유의사항 및 취소 처리',
+ src:'증명자료 및 유의사항 (02 xlsx) — 연구비카드 사용 유의사항',
+ phrases:['카드 취소','카드 결제취소','연구비카드 취소','카드 취소 처리','카드 유의사항','연구비카드 사용','카드 정산'],
+ words:['카드취소','결제취소','카드전표취소'],
+ anti:[],
+ body:`<strong>연구비카드 사용 유의사항 및 취소 처리</strong><br><br>
+<strong>▌지급신청 기한</strong><br>
+· 통합Ezbaro 과제: 전월 1일~말일 사용분 → <strong>익월 12일까지</strong> 지급신청 완료<br>
+· 통합RCMS 과제: 전월 1일~말일 사용분 → <strong>익월 5일까지</strong> 지급신청 완료<br><br>
+<strong>▌카드 결제취소 처리방법</strong><br>
+<div class="stp"><span class="sn">1</span><span>불가피한 경우 외에는 결제취소 가급적 지양</span></div>
+<div class="stp"><span class="sn">2</span><span>취소 발생 시 <strong>원 결제건 매출전표 + 취소 매출전표</strong> 함께 연구행정팀 제출</span></div>
+<div class="stp"><span class="sn">3</span><span>BRIS R&D 카드정산 화면 → 마이너스 결제 건 선택 → 내역구분: <strong>공공요금및수수료</strong> 선택 → 지급신청</span></div>`,
+ chips:['BRIS R&D 카드 정산','연구비 공통 인정기준']},
+
+{id:'refund_travel', title:'국내여비 환원(반납) 기준',
+ src:'서울대학교병원 국내여비규정 (2023.1.5) 별표3, 증명자료 유의사항',
+ phrases:['국내여비 환원','여비 환원','국내여비 반납','여비 반납','여비 회수','출장비 반납','출장비 환원','여비 돌려줘야','여비 돌려'],
+ words:['여비환원','여비반납'],
+ anti:['신청','절차','증빙','서류'],
+ body:`<strong>국내여비 환원(반납) 기준</strong><br><br>
+다음 경우에는 이미 지급받은 여비의 전부 또는 일부를 반납해야 합니다.<br><br>
+<strong>▌주요 환원 사유</strong><br>
+<table><tr><th>사유</th><th>환원 대상</th></tr>
+<tr><td>출장 취소·단축</td><td>미사용 일수에 해당하는 여비 전액</td></tr>
+<tr><td>학회·호텔·출장기관에서 식사 제공</td><td>해당 식비 차감 (1식 = 1일당 식비 ÷ 3)</td></tr>
+<tr><td>운임 실비 초과 수령</td><td>실제 구입가 초과분</td></tr>
+<tr><td>숙박비 상한 초과 수령</td><td>초과액 (단, 부득이한 사유 시 상한의 30% 범위 내 추가 가능)</td></tr>
+<tr><td>공용차량 이용 시 현지교통비</td><td>현지교통비의 50% 반납</td></tr>
+<tr><td>타 재원 중복수령</td><td>중복 수령액 전액</td></tr>
+</table><br>
+<strong>▌정산 기한</strong><br>
+여행을 마친 후 <strong>1개월 이내</strong>에 운임·숙박비 세부 사용내용 증거서류와 함께 정산 신청<br><br>
+<div class="wl">※ 원장은 지급하지 아니할 충분한 이유가 있다고 인정될 때 여비를 감하거나 전부/일부 지급 안 할 수 있음<br>
+※ 보라매 연구비관리지침: 연구의 조기 종료 시 위탁연구비 잔액 환급 시 병원관리비·개발보전비·약제관리비는 환급 제외</div>`,
+ chips:['국내 출장 여비 직급별 기준','국내여비 증빙서류','연구비 회수·환원 기준']},
+
+{id:'refund_std', title:'연구비 회수·환원 기준 (정산)',
+ src:'국가연구개발혁신법 매뉴얼 시행령 제26조⑤, 보라매병원 연구비관리지침 제4조③',
+ phrases:['연구비 환원','연구비 반납','연구비 회수','환원 기준','반납 기준','잔액 환원','잔액 반납'],
+ words:['회수기준','환원기준','정산회수','잔액반납'],
+ anti:['국내여비','여비','출장'],
+ body:`<strong>연구비 회수·환원 기준</strong><br><br>
+<strong>▌국가연구개발혁신법 — 정산 후 회수 대상 (시행령 제26조⑤)</strong><br>
+<table><tr><th>회수 항목</th><th>내용</th></tr>
+<tr><td><strong>① 직접비 사용 잔액</strong></td><td>미집행 직접비 잔액 전액 (학생인건비·연구시설장비비 일부 제외)</td></tr>
+<tr><td><strong>② 용도·기준 위반 사용액</strong></td><td>사용용도·기준 위반하여 집행한 금액 전액</td></tr>
+<tr><td><strong>③ 간접비 초과 집행분</strong></td><td>직접비 집행비율 50% 이하인 과제에서 간접비 집행비율이 직접비 집행비율을 초과한 경우</td></tr>
+<tr><td><strong>④ 협약 해약 시 간접비 잔액</strong></td><td>협약 해약된 경우 간접비 사용 잔액</td></tr>
+<tr><td><strong>⑤ 기관부담연구개발비 미부담분</strong></td><td>실제 부담하지 않은 금액</td></tr>
+</table><br>
+<strong>▌보라매병원 연구비관리지침 (위탁연구비 조기 종료 시)</strong><br>
+지원기관에 위탁연구비 잔액 환급 시 기 처리된 <strong>병원관리비·개발보전비·약제관리비는 환급 제외</strong><br><br>
+<div class="wl">※ 회수한 연구개발비는 국고 납입<br>
+※ 연구수당지급비율이 직접비사용비율을 20%p 초과한 경우 해당분 불인정·회수</div>`,
+ chips:['연구비 집행 불인정 항목','정산 절차·기한','국내여비 환원 기준']},
+
+{id:'disallowed', title:'연구비 집행 불인정 항목',
+ src:'보라매병원 연구비관리지침 제16조, 국가연구개발사업 연구개발비 사용기준',
+ phrases:['집행 불인정','불인정 항목','집행 안되는','연구비 안되는','쓸 수 없는','사용 불가'],
+ words:['불인정','집행불가','산정불가'],
+ anti:[],
+ body:`<strong>연구비 집행 불인정 항목</strong><br><br>
+<strong>▌보라매병원 연구비관리지침 제16조</strong><br>
+1. 연구와 관련 없는 국외여비<br>
+2. 연구와 관련 없는 주유비·주차료·톨게이트·차량임대비·내부차량비·차량보험료<br>
+3. <strong>야근식대·시간외근무수당</strong> (※ 단, 연구인력 지원비로 집행 가능한 야근식대와 구분 필요)<br>
+4. 학위과정 교육훈련비<br>
+5. 기관공통전화<br>
+6. 연구와 관련 없는 핸드폰 등 이동통신료<br>
+7. 전기료·수도료·가스료<br>
+8. 연료비·청소비<br><br>
+<strong>▌국가연구개발사업 연구개발비 사용기준</strong><br>
+· 주류 등 유흥성 비용<br>
+· 환급받을 수 있는 관세·부가가치세<br>
+· 종신 학회비<br>
+· 연구과제와 관련 없는 학회·세미나 참가비·교육훈련비<br>
+· 참여연구자의 학위과정 비용<br>
+· 고용보험 등으로 환급 가능한 교육비<br>
+· 평일 점심식대 (출장비 중 식비가 포함된 출장일 포함)<br>
+· 연구수당지급비율이 직접비사용비율 20%p 초과한 초과분<br>
+· 직접비 50% 이하 집행 시 간접비 집행비율 초과분<br>
+· 컨소시엄 구성기관 간 내부거래 (일부 예외 있음)<br>
+<div class="wl">※ 가운 구매: 국가연구비로 불가 (간접비 구매 원칙)</div>`,
+ chips:['연구비 회수·환원 기준','연구활동비 사용항목 전체','야근식대 사용 여부']},
+
+{id:'activity_all', title:'연구활동비 사용 가능 항목 전체',
+ src:'국가연구개발사업 연구개발비 사용기준 제10조, 제25조',
+ phrases:['연구활동비 항목','연구활동비 전체','연구활동비 쓸 수 있는','연구활동비 사용','뭘 살 수 있어','뭘 쓸 수 있어'],
+ words:['연구활동비'],
+ anti:[],
+ body:`<strong>연구활동비 사용 가능 항목 전체 (제10조)</strong><br><br>
+<table><tr><th>항목</th><th>사용 가능 내용</th></tr>
+<tr><td>① 지식재산 창출 활동비</td><td>특허·기술 정보 조사·분석, 원천특허 확보 전략 수립 등</td></tr>
+<tr><td>② 외부 전문기술 활용비</td><td>기술도입비, 전문가활용비(원고료·강사료·자문료), 연구개발서비스 활용비<br><span style="font-size:12px;color:var(--warn)">직접비의 40% 이내</span></td></tr>
+<tr><td>③ 회의비</td><td>회의장 임차료, 속기료, 통역료, 회의비<br><span style="font-size:12px;color:var(--warn)">식비는 원칙 불가 (소속 외 인원 포함 + 사전 내부결재 완료 시만 가능)</span></td></tr>
+<tr><td>④ 출장비</td><td>국내외 출장 비용 (여비규정 적용)</td></tr>
+<tr><td>⑤ 소프트웨어 활용비</td><td>SW 구입·임차·사용대차, DB·네트워크 이용료</td></tr>
+<tr><td>⑥ 클라우드컴퓨팅서비스 활용비</td><td>클라우드서비스 이용료</td></tr>
+<tr><td>⑦ 연구실운영비</td><td>사무용 기기·SW·사무용품·연구실 소모성 비용</td></tr>
+<tr><td>⑧ 연구인력 지원비</td><td><strong>교육·훈련 비용, 학회·세미나 참가비, 야근(특근) 식대</strong></td></tr>
+<tr><td>⑨ 해외 연구자 유치 지원비</td><td>외국 소재 연구자 국내 유치 장려금·체재비 (기관장 인정 필요)</td></tr>
+<tr><td>⑩ 그 밖의 비용</td><td><strong>문헌구입비, 논문게재료</strong>, 인쇄·복사·인화비, 세금·공과금, 우편·택배비, 수수료, 일용직 활용비 등</td></tr>
+</table>`,
+ chips:['연구비 집행 불인정 항목','학회등록비 사용 가능 여부','논문게재료 사용기준']},
+
+{id:'conf_ok', title:'학회등록비·참가비 사용 가능 여부',
+ src:'국가연구개발사업 연구개발비 사용기준 제10조, 증명자료 유의사항',
+ phrases:['학회비 사용 가능','학회등록비 사용','학회 등록비 쓸 수 있','학회 참가비 쓸 수 있','학회비 쓸 수 있','학회비 가능'],
+ words:['학회등록비가능','학회참가비가능'],
+ anti:['증빙','서류'],
+ body:`<strong>학회등록비·참가비 사용 가능 여부</strong><br><br>
+<span style="color:var(--ok);font-weight:700">✅ 사용 가능합니다.</span><br><br>
+학회·세미나 참가비는 <strong>연구활동비 중 연구인력 지원비</strong>로 집행 가능합니다.<br><br>
+<strong>▌조건</strong><br>
+· 해당 <strong>연구과제와 직접 관련</strong>된 학회여야 함<br>
+· 종신학회비는 불인정<br><br>
+<strong>▌증빙서류</strong><br>
+전자(세금)계산서 또는 카드매출전표 + 학회 일정 및 프로그램 + 학회 발행 영수증 및 네임택 + 논문초록/포스터<br><br>
+<div class="wl">※ 연구과제와 관련 없는 학회 참가비는 불인정<br>
+※ 종신학회비 불인정</div>`,
+ chips:['학회등록비 증빙서류','연구활동비 사용항목 전체']},
+
+{id:'dinner_ok', title:'야근식대 사용 가능 여부',
+ src:'국가연구개발사업 연구개발비 사용기준 제10조, 보라매병원 연구비관리지침 제16조',
+ phrases:['야근식대 가능','야근 식대 가능','야근식대 쓸 수','특근식대 가능','야간식대 연구비','야근 식비'],
+ words:['야근식대','특근식대','야간식대'],
+ anti:[],
+ body:`<strong>야근식대 연구비 사용 가능 여부</strong><br><br>
+<strong>▌국가연구개발혁신법 적용과제</strong><br>
+<span style="color:var(--ok);font-weight:700">✅ 조건부 가능합니다.</span><br><br>
+연구활동비 중 <strong>'연구인력 지원비'</strong> 항목으로 집행 가능<br>
+단, <strong>연구개발과제 수행을 위한 야근(특근) 식대</strong>여야 함<br><br>
+<strong>▌불인정되는 경우</strong><br>
+· 보라매병원 연구비관리지침: 야근식대·시간외근무수당은 연구비로 산정 불가 ← <strong>원내 과제 해당</strong><br>
+· 평일 점심식대는 불인정<br>
+· 출장비 중 식비가 포함된 출장일의 식대도 불인정<br><br>
+<div class="wl">※ 국가연구개발혁신법 적용 과제(국책·위탁)와 원내 과제의 기준이 다를 수 있으므로,<br>실제 집행 전 연구행정팀에 확인 권장 (국책 과제 담당: 내선 <strong>1861</strong>)</div>`,
+ chips:['연구활동비 사용항목 전체','연구비 집행 불인정 항목']},
+
+{id:'paper_fee', title:'논문게재료 사용기준',
+ src:'국가연구개발사업 연구개발비 사용기준 제22조, 보라매병원 연구비관리지침 제10조',
+ phrases:['논문게재료','논문 게재비','논문 출판비','게재료 연구비','논문게재 연구비'],
+ words:['논문게재료','게재비','출판비'],
+ anti:[],
+ body:`<strong>논문게재료 사용기준</strong><br><br>
+<span style="color:var(--ok);font-weight:700">✅ 사용 가능합니다.</span><br><br>
+<strong>▌사용 기간</strong><br>
+· 원칙: <strong>연구개발기간 종료일 이전</strong> 사용<br>
+· 예외: 기관장이 인정하는 경우 <strong>연구개발협약 종료일 후 2년 이내</strong>까지 사용 가능<br><br>
+<strong>▌해당 비목</strong><br>
+· 직접비: 연구활동비 > 그 밖의 비용<br>
+· 간접비: 연구지원비 중 연구활동지원금 (연구개발기간 종료 후 발생분)<br><br>
+<div class="wl">※ 연구개발기간 종료 후 발생한 논문게재료는 <strong>간접비(연구활동지원금)</strong>로 사용하는 것이 원칙<br>
+단, 간접비 사용이 어려운 경우 협약 종료일 후 2년 이내 직접비 사용 가능</div>`,
+ chips:['연구활동비 사용항목 전체','연구비 공통 인정기준']},
+
+{id:'meeting_food', title:'회의비 식비 포함 가능 여부',
+ src:'국가연구개발사업 연구개발비 사용기준 제25조④',
+ phrases:['회의비 식비','회의비 식사','회의에서 밥','식비 회의','회의 식대','회의 식사비','회의비에 식비'],
+ words:['회의식비','회의식사'],
+ anti:[],
+ body:`<strong>회의비 식비 포함 가능 여부</strong><br><br>
+<strong>▌원칙: 회의비 중 식비 계상 불가</strong><br><br>
+<strong>▌예외 (둘 다 충족해야 가능)</strong><br>
+① 해당 연구개발기관에 <strong>소속되지 않은 자</strong>가 참여하는 회의일 것<br>
+② <strong>사전에 내부결재가 완료</strong>된 회의일 것<br><br>
+<strong>▌실무 주의사항</strong><br>
+· 식사 후 별도 다과비(커피 등) 지출 시 <strong>각각 다른 회의록</strong>으로 작성<br>
+· 주문내역 나오는 영수증의 경우 <strong>메뉴 개수대로 참석자 기입</strong> 필요<br>
+· 주류 청구 불가<br>
+· 1인당 기준단가: 자체규정 적용 시 <strong>5만원 이하</strong>`,
+ chips:['회의비 증빙서류','회의비 신청 절차']},
+
+{id:'settle_download', title:'BRIS 정산증빙 다운로드',
+ src:'정산증빙 다운로드 안내 PPTX',
+ phrases:['정산 증빙 다운로드','증빙 다운','정산증빙 다운','bris 다운로드','이자 내역서','지출결의서 다운'],
+ words:['정산증빙','이자내역','지출결의'],
+ anti:[],
+ body:`<strong>BRIS 정산증빙 다운로드 방법</strong><br><br>
+<div class="stp"><span class="sn">1</span><span><strong>발생이자 내역서</strong><br>BRIS > 연구책임자 > 연구과제 관리 > 과제정보 조회 > <strong>이자발생 Tab</strong> > 돋보기 클릭<br><span style="font-size:11px;color:var(--muted)">(BRIS에서 불가한 과제는 연구행정팀에 통장 거래내역 요청)</span></span></div>
+<div class="stp"><span class="sn">2</span><span><strong>지출결의서 및 계좌이체 확인서</strong><br>BRIS > 연구책임자 > 연구과제 관리 > 과제정보 조회 > <strong>결재문서조회 Tab</strong></span></div>
+<div class="stp"><span class="sn">3</span><span><strong>참여연구원 명단</strong><br>BRIS > 과제정보 조회 > <strong>참여인력정보 Tab</strong> > 출력물 드롭다운 > 참여연구원명단</span></div>
+<div class="stp"><span class="sn">4</span><span><strong>예산변경내역</strong><br>BRIS > 과제변경관리 > 실행예산변경 신청 > 1차수부터 최근까지 각각 클릭 > PDF 저장</span></div>
+<div class="stp"><span class="sn">5</span><span><strong>간접비내역</strong><br>BRIS > 과제정보 조회 > <strong>간접비내역 Tab</strong> > 간접비이관통보서 > PDF 저장</span></div>`,
+ chips:['정산 절차·기한','연구비 회수·환원 기준']},
+
+{id:'settle_proc', title:'정산 절차 및 기한',
+ src:'국가연구개발혁신법 매뉴얼 시행령 제26조, 보라매병원 연구비관리지침 제8조',
+ phrases:['정산 기한','정산 절차','정산 어떻게','정산 언제','사용실적보고'],
+ words:['정산기한','정산절차','사용실적'],
+ anti:['증빙','다운로드','회수','반납'],
+ body:`<strong>연구개발비 정산 절차 및 기한</strong><br><br>
+<strong>▌정산 기한</strong><br>
+· 국가연구개발혁신법: 각 단계 종료일로부터 <strong>3개월 이내</strong> 사용실적보고서 제출<br>
+· 보라매병원 연구비관리지침: 연구결과보고서 승인 후 <strong>6개월 이내</strong> 정산<br><br>
+<strong>▌연구개발기간 종료 후 사용 가능 비용</strong> (사용실적 보고일까지)<br>
+· 보고서 발간·평가 관련 비용, 정산 수수료, 공공요금, 제세공과금<br>
+· 연구수당<br>
+· 기간 종료일 이전 지출원인행위 완료한 금액<br>
+· 논문게재료: 협약 종료일 후 <strong>2년 이내</strong> 가능<br><br>
+<div class="wl">※ 정산 후 남은 금액(잔여연구비)은 임상연구위원회에서 결정 (보라매병원 지침 제8조)</div>`,
+ chips:['BRIS 정산증빙 다운로드','연구비 회수·환원 기준']},
+
+{id:'sw_std', title:'소프트웨어·클라우드 사용기준',
+ src:'국가연구개발사업 연구개발비 사용기준 제25조⑨~⑫',
+ phrases:['소프트웨어 기준','sw 기준','클라우드 기준','소프트웨어 도입기한','클라우드 사용'],
+ words:['소프트웨어기준','클라우드기준','도입기한'],
+ anti:['증빙','서류'],
+ body:`<strong>소프트웨어·클라우드컴퓨팅서비스 사용기준</strong><br><br>
+<strong>▌도입기한 (사용계약 체결 기한)</strong><br>
+<table><tr><th>구분</th><th>기한</th></tr>
+<tr><td>기본사업</td><td>연구개발과제 종료일</td></tr>
+<tr><td>재난·재해 등 부득이한 경우</td><td>연구개발과제 종료일 <strong>1개월 전</strong></td></tr>
+<tr><td>일반 과제</td><td>연구개발과제 종료일 <strong>2개월 전</strong></td></tr>
+</table><br>
+<strong>▌계약기간 초과 허용</strong><br>
+소프트웨어 사용계약기간이 연구개발기간을 초과하더라도, <strong>계약기간이 최소단위임을 소명</strong>하면 전체 계약금액 계상 가능<br>
+(소명 서류 필수 첨부)<br><br>
+<div class="wl">※ 클라우드컴퓨팅서비스 정액제는 소프트웨어 기준 준용</div>`,
+ chips:['소프트웨어 증빙서류','연구활동비 사용항목 전체']},
+
+{id:'salary_std', title:'인건비 직급별 기준단가',
+ src:'보라매병원 연구비관리지침 [표2]',
+ phrases:['인건비 기준','직급별 인건비','기준단가 얼마','인건비 얼마','월 기준단가'],
+ words:['인건비기준','기준단가','책임급','선임급','원급','연구보조원'],
+ anti:['증빙','학생'],
+ body:`<strong>인건비 월지급 기준상한액 (보라매병원 연구비관리지침 [표2])</strong><br><br>
+<table><tr><th>구분</th><th>월 기준상한액</th><th>인정 요건</th></tr>
+<tr><td>교수</td><td><strong>9,200천원</strong></td><td>–</td></tr>
+<tr><td>부교수</td><td><strong>7,800천원</strong></td><td>–</td></tr>
+<tr><td>조교수</td><td><strong>6,800천원</strong></td><td>–</td></tr>
+<tr><td>책임급</td><td><strong>7,000천원</strong></td><td>학사 후 해당분야 경력 9년↑</td></tr>
+<tr><td>선임급</td><td><strong>6,000천원</strong></td><td>학사 후 해당분야 경력 4년↑</td></tr>
+<tr><td>원급</td><td><strong>4,000천원</strong></td><td>학사 후 해당분야 경력 2년↑</td></tr>
+<tr><td>연구보조원</td><td><strong>2,500천원</strong></td><td>상기 직급 미해당, 연구보조 수행자</td></tr>
+</table>
+<div class="wl">※ 요건 미해당자도 동등 이상 경력 소유자는 해당 직위 참여 가능</div>`,
+ chips:['학생인건비 기준','외부인건비 증빙서류','연구수당 계상 기준']},
+
+{id:'student_std', title:'학생인건비 지급 기준',
+ src:'보라매병원 연구비관리지침 [표3]',
+ phrases:['학생인건비 기준','학생 인건비','대학원생 인건비'],
+ words:['학생인건비','박사과정','석사과정','학사과정'],
+ anti:[],
+ body:`<strong>학생인건비 월지급 기준상한액 (보라매병원 연구비관리지침 [표3])</strong><br><br>
+<table><tr><th>구분</th><th>월 기준상한액</th></tr>
+<tr><td>박사과정</td><td><strong>3,000천원</strong></td></tr>
+<tr><td>석사과정</td><td><strong>2,200천원</strong></td></tr>
+<tr><td>학사과정</td><td><strong>1,300천원</strong></td></tr>
+</table>
+<div class="wl">※ 원소속기관이 학생인 경우 <strong>외부인건비 비목</strong>으로 계상, 지급기준은 [표3] 적용</div>`,
+ chips:['인건비 직급별 기준단가','외부인건비 증빙서류']},
+
+{id:'travel_std', title:'국내 출장 여비 직급별 기준',
+ src:'서울대학교병원 국내여비규정 (2023.1.5) — 별표1·2·3',
+ phrases:['여비 기준','출장비 기준','숙박비 기준','식비 기준','직급별 여비','여비 얼마'],
+ words:['여비기준','숙박비','현지교통비','식비기준'],
+ anti:['증빙','서류','환원','반납','신청'],
+ body:`<strong>국내 출장 여비 기준 (서울대학교병원 국내여비규정 2023.1.5)</strong><br><br>
+<strong>▌직급 구분</strong><br>제1호: 원장 / 제2호: 부원장·간호본부장 등 / 제3호: 교수·부교수 / 제4호: 조교수·수간호사 등 / 제5호: 그 외 전직원<br><br>
+<strong>▌현지교통비·숙박비·식비 기준 (별표3)</strong><br>
+<table><tr><th>등급</th><th>현지교통비(1일)</th><th>숙박비(1야)</th><th>식비(1일)</th></tr>
+<tr><td>제1호</td><td>20,000원</td><td>실비</td><td>30,000원</td></tr>
+<tr><td>제2·3호</td><td>20,000원</td><td>실비 (상한 <strong>120,000원</strong>)</td><td>30,000원</td></tr>
+<tr><td>제4·5호</td><td>20,000원</td><td>실비 (상한 <strong>80,000원</strong>)</td><td>21,000원</td></tr>
+</table><br>
+<strong>▌근무지 내 출장</strong> (같은 시·군 or 12km 미만)<br>
+4시간 이상: <strong>20,000원</strong> / 4시간 미만: <strong>10,000원</strong> / 공용차량 이용 시: 10,000원 감액<br>
+<div class="wl">※ 민간과제: 숙박비 상한 250,000원 / 운임·숙박비는 신용카드 결제 필수 / 여행 후 1개월 이내 정산</div>`,
+ chips:['국내여비 증빙서류','국내여비 환원 기준','BRIS 국내여비 신청']},
+
+{id:'meeting_proc', title:'BRIS 회의비 신청 절차',
+ src:'BRIS 연구자 매뉴얼 — 회의비(2/4~4/4)',
+ phrases:['회의비 신청','회의비 어떻게 내요','회의비 청구','bris 회의비'],
+ words:['회의비신청','회의비절차'],
+ anti:['증빙','서류','기준','상한','불인정'],
+ body:`<strong>BRIS 회의비 신청 절차</strong><br><br>
+<div class="stp"><span class="sn">1</span><span>연구비 관리 → 연구비지급 신청 → 신규신청</span></div>
+<div class="stp"><span class="sn">2</span><span>구분: 일반지급 / 내역구분: <strong>회의비</strong> / 지급형태: 개인지급</span></div>
+<div class="stp"><span class="sn">3</span><span>수령자정보: 구분 선택 → 연구원 검색 → 수령계좌 검색</span></div>
+<div class="stp"><span class="sn">4</span><span>회의록 작성: 회의일시·장소·목적·내용 + 참가자 추가</span></div>
+<div class="stp"><span class="sn">5</span><span>완료 → 저장 → 지급신청 → 신청서 인쇄 → 연구행정팀 제출</span></div>
+<div class="wl">※ 회의비 1인당 상한: <strong>50,000원</strong> / 주류 청구 불가</div>`,
+ chips:['회의비 증빙서류','회의비 식비 포함 가능 여부','회의비 집행 기준 상한액']},
+
+{id:'meeting_std', title:'회의비·강사료·자문료 집행 기준 상한액',
+ src:'보라매병원 연구비관리지침 [표4] 비목별 산정 기준',
+ phrases:['회의비 상한','회의비 기준','회의수당 기준','강사료 기준','자문료 기준','원고료 기준'],
+ words:['회의비상한','강사료','자문료','원고료','회의수당'],
+ anti:['신청','절차','증빙','식비'],
+ body:`<strong>회의비·회의수당·원고료·강사료·자문료 기준 (보라매병원 연구비관리지침 [표4])</strong><br><br>
+<strong>▌회의비</strong>: 1인당 기준단가 <strong>50,000원 이하</strong><br><br>
+<strong>▌회의수당·원고료·강사료·자문료</strong><br>
+<table><tr><th>구분</th><th>회의수당(1회/3h이내)</th><th>원고료(A4 1장)</th><th>강사료(1회)</th><th>자문료(1시간)</th></tr>
+<tr><td>연구책임자</td><td>200,000원↓</td><td>50,000원↓</td><td>1,000,000원↓</td><td>150,000원↓</td></tr>
+<tr><td>연구원(책임급↓)</td><td>200,000원↓</td><td>50,000원↓</td><td>800,000원↓</td><td>100,000원↓</td></tr>
+</table>
+<div class="wl">※ 회의수당 3시간 초과 시 30만원까지 가능<br>
+※ 외국인·국내소속 없는 한국인 초빙 시 기준액의 2배까지<br>
+※ 해당 과제 참여연구원에게 전문가활용비(자문료 등) 지급 불가<br>
+※ 공무원·공직유관단체 임직원 강사료: 청탁금지법 적용</div>`,
+ chips:['회의비 신청 절차','전문가활용비 증빙서류']},
+
+{id:'bris_researcher', title:'BRIS 참여연구원 등록',
+ src:'BRIS 연구자 매뉴얼 — 참여연구원등록및변경 ①~⑤',
+ phrases:['참여연구원 등록','연구원 추가','연구원 등록','참여연구원 추가'],
+ words:['참여연구원등록','인건비재원'],
+ anti:[],
+ body:`<strong>BRIS 참여연구원 신규 등록</strong><br><br>
+<div class="stp"><span class="sn">1</span><span>협약변경관리 → 참여연구원등록및변경 → 과제 선택</span></div>
+<div class="stp"><span class="sn">2</span><span>신규추가 → 연구원 통합검색 팝업 → 성명 검색 → 선택<br>참여구분·참여기간·기본계좌 입력 후 저장</span></div>
+<div class="stp"><span class="sn">3</span><span>인건비재원정보 탭 → 신규 버튼<br>
+· 지급: 재원출처·지급비목(외부인건비)·지급기간·월급여액·기준단가 입력<br>
+· 미지급: 지급여부 '미지급', 정기지급 '아니오'</span></div>
+<div class="stp"><span class="sn">4</span><span>저장 → 체크박스 체크 → 신청 버튼 → 출력 후 연구행정팀 제출</span></div>
+<div class="wl">※ 기준단가: 연구비관리지침 [표2] 확인</div>`,
+ chips:['인건비 직급별 기준단가','외부인건비 증빙서류','통합이지바로 인건비 계상률']},
+
+{id:'ezbaro_salary', title:'통합이지바로 인건비 계상률 입력',
+ src:'통합이지바로 참여연구원 정보 입력 매뉴얼',
+ phrases:['통합이지바로 계상률','이지바로 참여율','이지바로 인건비','계상률 입력'],
+ words:['통합이지바로','계상률'],
+ anti:['계좌'],
+ body:`<strong>통합이지바로 인건비 계상률 입력</strong><br>
+(IRIS 기관담당자 승인 후 5분~3시간 뒤 반영)<br><br>
+<div class="stp"><span class="sn">1</span><span>통합이지바로 → 협약 → 연구계획변경 → 협약변경 → 과제 선택</span></div>
+<div class="stp"><span class="sn">2</span><span>[IRIS연계과제] 연구원계상률등록 탭 클릭</span></div>
+<div class="stp"><span class="sn">3</span><span>① 지급/미지급 선택 ② 기준단가 입력 ③ 월급여액 입력 ④ 참여율 입력</span></div>
+<div class="stp"><span class="sn">4</span><span>저장</span></div>
+<div class="wl">※ 지급·미지급 모두 입력 필수</div>`,
+ chips:['통합이지바로 연구원 계좌 등록','BRIS 참여연구원 등록','인건비 직급별 기준단가']},
+
+{id:'system_rel', title:'BRIS·IRIS·통합이지바로 관계',
+ src:'IRIS 협약변경 매뉴얼 v1.2 — 1. 안내사항',
+ phrases:['시스템 관계','bris iris','세 시스템','이지바로 차이','연동'],
+ words:['시스템관계','브리스아이리스'],
+ anti:[],
+ body:`<strong>BRIS · IRIS · 통합이지바로 관계</strong><br><br>
+<table><tr><th>시스템</th><th>운영</th><th>주요 역할</th></tr>
+<tr><td><strong>BRIS</strong></td><td>보라매병원 내부</td><td>참여연구원 관리, 실행예산, 연구비 지급신청</td></tr>
+<tr><td><strong>IRIS</strong></td><td>정부 전산</td><td>과제협약·협약변경 신청 (연구원 추가/삭제, 예산변경)</td></tr>
+<tr><td><strong>통합이지바로</strong></td><td>정부 전산</td><td>인건비 계상률(참여율), 연구비실행예산, 집행내역 관리</td></tr>
+</table><br>
+<strong>▌연구원 변경 시 순서</strong><br>
+<div class="stp"><span class="sn">1</span><span>BRIS에서 참여연구원 변경신청</span></div>
+<div class="stp"><span class="sn">2</span><span>IRIS에서 연구원변경 협약변경 → 기관담당자 승인</span></div>
+<div class="stp"><span class="sn">3</span><span>통합이지바로에서 인건비 계상률 + 계좌정보 입력</span></div>
+<div class="wl">※ 참여연구원 정보·실행예산은 BRIS↔이지바로 자동 연동 ❌ → 수동 입력 필요</div>`,
+ chips:['IRIS 협약변경 절차','통합이지바로 인건비 계상률 입력','BRIS 참여연구원 등록']},
+
+{id:'iris_contract', title:'IRIS 협약변경 절차',
+ src:'IRIS 협약변경 매뉴얼 v1.2',
+ phrases:['iris 협약변경','아이리스 협약','협약 변경 신청'],
+ words:['iris','아이리스','협약변경'],
+ anti:[],
+ body:`<strong>IRIS 협약변경 신청 절차</strong><br><br>
+<div class="stp"><span class="sn">1</span><span>IRIS → 과제수행 → 협약변경 → (승인통보)협약변경신청</span></div>
+<div class="stp"><span class="sn">2</span><span>과제 선택 → 변경항목 선택 → 해당 항목 체크 → 저장</span></div>
+<div class="stp"><span class="sn">3</span><span>변경 전/후 내용·변경사유 입력 + 첨부파일 업로드 (연구개발과제 변경 및 중단요청서 필수)</span></div>
+<div class="stp"><span class="sn">4</span><span>각 탭 입력 → 최종확인 → 제출 → 기관담당자에게 메일로 보고</span></div>
+<div class="wl">※ 변경 전후/사유·첨부파일 저장 후 진행 필수<br>※ 협약 변경사항은 연구기간 내까지 반드시 제출</div>`,
+ chips:['IRIS 연구원 변경','BRIS 참여연구원 등록','통합이지바로 인건비 계상률 입력']},
+
+{id:'lab_ops', title:'연구실운영비 구입 가능 품목',
+ src:'보라매병원 연구실운영비 사용 기준',
+ phrases:['연구실운영비 품목','운영비 뭐 살 수','연구실 운영비'],
+ words:['연구실운영비','운영비품목'],
+ anti:[],
+ body:`<strong>연구실운영비 구입 가능 품목</strong><br><br>
+① 사무용 기기·SW: PC·노트북·모니터·프린터·복합기, RAM·SSD·USB, 통계·사무처리 소프트웨어<br>
+② 사무용품: 토너·복사용지·잉크·문구류·화이트보드·파일바인더 등<br>
+③ 냉난방·청결: 냉장고·가습기·공기정화기·블라인드·청소기·정수기, 연구용 가구, 실내화<br>
+④ 소모성 경비: 휴지·물티슈·손세정제·비누·종이컵, 보안용 잠금장치<br><br>
+<div class="wl">※ 중앙집중식 냉난방·공조시설 불인정 / 개인교수연구실 해당 없음<br>※ 지원기관 별도 기준 있으면 그 기준 적용</div>`,
+ chips:['연구재료비 증빙서류','연구비 집행 불인정 항목']},
+
+{id:'entrust_std', title:'위탁연구비 산정 기준',
+ src:'보라매병원 연구비관리지침 제6조, 제10조',
+ phrases:['위탁연구비 산정','병원관리비','개발보전비','약제관리비'],
+ words:['위탁연구비','병원관리비','개발보전비'],
+ anti:[],
+ body:`<strong>위탁연구비 산정 기준</strong><br><br>
+<table><tr><th>구분</th><th>비율</th></tr>
+<tr><td>직접비</td><td>총연구비의 <strong>85%</strong></td></tr>
+<tr><td>개발보전비</td><td>총연구비의 <strong>15%</strong></td></tr>
+<tr><td>병원관리비</td><td>총연구비의 <strong>5%</strong> (별도)</td></tr>
+<tr><td>총 위탁연구비</td><td>총연구비 <strong>105%</strong></td></tr>
+<tr><td>약제관리비 기본금</td><td><strong>50만원</strong> (1회, 별도)</td></tr>
+<tr><td>약제관리비</td><td>총 연구개발비의 <strong>3%</strong></td></tr>
+</table>
+<div class="wl">※ 조기 종료 시 환급: 기 처리된 병원관리비·개발보전비·약제관리비는 환급 제외<br>
+※ 정부지원 연구·PMS·기부금연구: 병원관리비 면제</div>`,
+ chips:['연구비 회수·환원 기준']},
+
+{id:'rcms_refund', title:'산업기술혁신사업 회수금·환수금 (산업부 과제)',
+ src:'산업기술혁신사업 공통 운영요령 고시 제2024-218호',
+ phrases:['산업부 회수금','rcms 회수','산업기술 회수','환수금 산업부','불인정금액 산업부'],
+ words:['산업부','rcms','산업기술혁신'],
+ anti:[],
+ body:`<strong>산업기술혁신사업 회수금·환수금·불인정금액 (산업부 과제)</strong><br><br>
+<table><tr><th>용어</th><th>정의</th></tr>
+<tr><td>사용잔액</td><td>적정 사용 인정 금액을 제외한 나머지</td></tr>
+<tr><td>불인정금액</td><td>사용용도·기준 위반으로 확인된 금액</td></tr>
+<tr><td>회수금</td><td>사용잔액(현금)+이자+불인정금액의 합 중 정부지원금 지분<br>+ 기관부담연구개발비 현물 부족분</td></tr>
+<tr><td>환수금</td><td>부정행위 등 제재사유 관련 정부지원 연구개발비 환수금액</td></tr>
+</table><br>
+<strong>▌납부 절차</strong><br>
+통보일로부터 <strong>1개월 이내</strong> 지정계좌 반납 → 미납 시 채권추심 등 법적 조치<br><br>
+경영악화 시 연장 가능: 신용평가 C(열위) 1년, D(불량) 2년 이내 (1회)<br>
+<div class="wl">※ 정산·회수 면제 경우에도 연구비 유용·기준 위반 시 회수 가능</div>`,
+ chips:['연구비 회수·환원 기준','연구비 집행 불인정 항목']},
+
+{id:'contact', title:'연구비 관련 문의처',
+ src:'BRIS 연구자 매뉴얼 — 3. 연구비 관련 문의처',
+ phrases:['연구행정팀 전화','연구비 문의','담당자 내선','연락처'],
+ words:['문의처','내선','연구행정팀'],
+ anti:[],
+ body:`<strong>연구비 관련 문의처 (전문건설회관 12층)</strong><br><br>
+<table><tr><th>과제 유형</th><th>내선</th></tr>
+<tr><td>국책 과제</td><td><strong>1861</strong></td></tr>
+<tr><td>원내 과제</td><td><strong>1863</strong></td></tr>
+<tr><td>위탁 과제</td><td><strong>2853</strong></td></tr>
+</table>`,
+ chips:['BRIS 회의비 신청 절차','연구비 회수·환원 기준']}
+];
+
+/* ================================================================
+   개선된 자연어 검색 로직
+================================================================ */
+function tokenize(q) {
+  return q.toLowerCase()
+    .replace(/[?？！!,\.]/g,'')
+    .replace(/\s+/g,' ').trim()
+    .split(' ')
+    .filter(t => t.length >= 2);
+}
+
+function score(item, q, tokens) {
+  let s = 0;
+
+  // 1. phrases — 자연어 표현 통째로 매칭 (가장 높은 점수)
+  for (const ph of (item.phrases||[])) {
+    if (q.includes(ph)) s += ph.length >= 6 ? 12 : 8;
+  }
+
+  // 2. anti — 있으면 점수 깎음
+  for (const a of (item.anti||[])) {
+    if (q.includes(a)) s -= 8;
+  }
+
+  // 3. words — 단어 매칭
+  for (const w of (item.words||[])) {
+    if (q.includes(w)) s += w.length >= 4 ? 5 : 3;
+    for (const t of tokens) {
+      if (w.includes(t) || t.includes(w)) s += 1;
+    }
+  }
+
+  // 4. 제목 매칭
+  const tl = item.title.toLowerCase();
+  for (const t of tokens) {
+    if (tl.includes(t)) s += 2;
+  }
+
+  return s;
+}
+
+function search(query) {
+  const q = query.toLowerCase().replace(/[?？！!,\.]/g,'').replace(/\s+/g,' ').trim();
+  const tokens = tokenize(q);
+  let best = null, bscore = 0;
+  for (const item of KB) {
+    const s = score(item, q, tokens);
+    if (s > bscore) { bscore = s; best = item; }
+  }
+  return bscore >= 2 ? best : null;
+}
+
+/* ================================================================
+   UI
+================================================================ */
+function ask(q) { document.getElementById('inp').value = q; send(); }
+function fq(v) {
+  v = v.toLowerCase();
+  document.querySelectorAll('.qi').forEach(e => e.style.display = e.textContent.toLowerCase().includes(v)?'':'none');
+  document.querySelectorAll('.g-ttl').forEach(e => {
+    let s = e.nextElementSibling, any = false;
+    while(s && !s.classList.contains('g-ttl')){ if(s.style.display!=='none') any=true; s=s.nextElementSibling; }
+    e.style.display = any?'':'none';
+  });
+}
+function rsz(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,110)+'px'; }
+function onK(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); send(); } }
+function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function sb(){ const m=document.getElementById('msgs'); m.scrollTop=m.scrollHeight; }
+
+function addUser(t) {
+  const m=document.getElementById('msgs');
+  const r=document.createElement('div'); r.className='mr u';
+  r.innerHTML=`<div class="av ua">나</div><div class="bb">${esc(t)}</div>`;
+  m.appendChild(r); sb();
+}
+function addBot(html,src,chips) {
+  const m=document.getElementById('msgs');
+  const r=document.createElement('div'); r.className='mr b';
+  const ch=chips&&chips.length?`<div class="cpr">${chips.map(c=>`<span class="cp" onclick="ask('${c}')">${c}</span>`).join('')}</div>`:'';
+  const sr=src?`<div class="src"><b>📄 출처:</b> ${esc(src)}</div>`:'';
+  r.innerHTML=`<div class="av ba">🤖</div><div class="bb">${html}${sr}${ch}</div>`;
+  m.appendChild(r); sb();
+}
+function showTyp() {
+  const m=document.getElementById('msgs');
+  const r=document.createElement('div'); r.className='mr b'; r.id='typ';
+  r.innerHTML=`<div class="av ba">🤖</div><div class="typ"><span></span><span></span><span></span></div>`;
+  m.appendChild(r); sb();
+}
+function hideTyp(){ const e=document.getElementById('typ'); if(e) e.remove(); }
+
+function send() {
+  const inp=document.getElementById('inp');
+  const t=inp.value.trim(); if(!t) return;
+  inp.value=''; inp.style.height='auto';
+  addUser(t); showTyp();
+  setTimeout(()=>{
+    hideTyp();
+    const res=search(t);
+    if(res){ addBot(res.body,res.src,res.chips); }
+    else {
+      addBot(`제공된 문서에서 해당 내용을 찾지 못했습니다.<br><br>
+· 연구행정팀 문의: 국책 <strong>1861</strong> / 원내 <strong>1863</strong> / 위탁 <strong>2853</strong><br>
+· 그룹웨어 > 게시판에서 관련 규정 검색<br>
+· IRIS 매뉴얼: <a href="https://www.iris.go.kr" target="_blank" style="color:var(--pri)">iris.go.kr</a>`,
+      '', ['BRIS 회의비 신청 절차','연구비 회수·환원 기준','연구비 관련 문의처']);
+    }
+  }, 380);
+}
+</script>
+</body>
+</html>
